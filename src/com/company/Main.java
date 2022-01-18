@@ -9,28 +9,101 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Main {
+    private static File LSOutput = new File("fileName.txt");
+    private static Scanner input = new Scanner(System.in);
+
     public static void main(String[] args) {
-        File fileName = new File("NewFilename.txt");
+        CreateFile();
+        CreateFile2();
+        WriteToFile();
+        System.out.println("Do you want to delete this file now? If you do then type 'Y'");
+        String userOption = input.next();
+        if (userOption.equals("Y")) {
+            DeleteFile();
+        }
+            for (int j = 0; j < 4; j++) {
+                ShowMenu();
+
+
+                switch (menuInt) {
+
+                    case 1:
+                        int booksToAdd = Integer.parseInt(input.next("How many books do you wish to add?"));
+                        for (int i = 0; i < booksToAdd; i++) {
+                            books.add(getBookDetails());
+                        }
+                        WriteToFile();
+                        break;
+
+                    case 2:
+                        ReadFile();
+                        break;
+
+                    case 3:
+                        DeleteFile();
+                        break;
+                }
+
+            }
+
     }
 
-    public static String getInput(String prompt) {
-        System.out.println(prompt);
+    private static ArrayList<String> books = new ArrayList<>();
+    private static ArrayList<String> register = new ArrayList<>();
+    private static int menuInt = 0;
+    private static int loginSys = 0;
+    private static String password;
+    private static String username;
+    private static String userLog;
+    private static String userPass;
+    private static int booksToAdd = 1;
+
+
+    private static final File myObj = new File("bookList.txt");
+    private static final File myLogin = new File("userLogins.txt");
+    private static Scanner scanner = new Scanner(System.in);
+
+
+    public static void ShowMenu() {
+        System.out.println("\n");
+        System.out.println("Please choose an option from the menu: ");
+        System.out.println("1 - add books ");
+        System.out.println("2 - display books ");
+        System.out.println("3 - delete file ");
+
         Scanner input = new Scanner(System.in);
-        return input.nextLine();
+        menuInt = input.nextInt();
+
 
     }
-    public static String getStudentDetails() {
-        int amount = Integer.parseInt(getInput("Enter your student ID"));
-        String bookName = getInput("Enter your name");
-        String ISBNInput = getInput("Enter your Email address");
-        String author = getInput("Enter the author name");
-        String genre = getInput("Enter the book genre");
-        return (amount + "," + bookName + "," + ISBNInput + "," + author + "," + genre);
+
+
+    public static void DeleteFile() {
+        if (LSOutput.delete()) {
+            System.out.println("Deleted the file: " + LSOutput.getName());
+        } else {
+            System.out.println("Failed to delete the file.");
+        }
     }
-    public static void CreateFile() {
+
+
+    public static String getBookDetails() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Enter your book name");
+        String bookName = input.nextLine();
+        System.out.println("Enter your ISBN code");
+        String ISBNInput = input.nextLine();
+        System.out.println("Enter the author name");
+        String author = input.nextLine();
+        System.out.println("Enter the book genre");
+        String genre = input.nextLine();
+        return (bookName + ", " + ISBNInput + ", " + author + ", " + genre);
+    }
+
+    public static void CreateFile2() {
         try {
-            if (fileName.createNewFile()) {
-                System.out.println("File created: " + fileName.getName());
+            if (myLogin.createNewFile()) {
+                System.out.println("File created: " + myLogin.getName());
             } else {
                 System.out.println("File already exists.");
             }
@@ -39,31 +112,56 @@ public class Main {
             e.printStackTrace();
         }
     }
-    public static void WriteToFile() {
 
+    public static void CreateFile() {
         try {
-            FileWriter myWriter = new FileWriter(fileName.getName(), true); //True means append to file contents, False means overwrite
-            System.out.println("This is the contents of the file:");
-            myWriter.write("Files in Java might be tricky, but it is fun enough!"); // Overwrites everything in the file
-            myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            if (LSOutput.createNewFile()) {
+                System.out.println("File created: " + LSOutput.getName());
+            } else {
+                System.out.println("File already exists."); // Tells you if the file is already made
+            }
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
         }
     }
+
+    public static void ReadFile() {
+        try {
+            Scanner myReader = new Scanner(myObj);
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+
+            }
+            myReader.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+    }
+
     public static void WriteToFile() {
         try {
-            FileWriter myWriter = new FileWriter(fileName.getName(), false); //True means append to file contents, False means overwrite
-            System.out.println("This is the contents of the file:");
-            myWriter.write("Files in Java might be tricky, but it is fun enough!"); // Overwrites everything in the file
+            FileWriter myWriter = new FileWriter(LSOutput.getName(), false); //True means append to file contents, False means overwrite
+            //System.out.println("This is the contents of the file:");
+            System.out.println("Would you like to add a book to the list? Y or N");
+            String answer = input.next();
+
+            while (answer.equalsIgnoreCase("Y")) { // Doesn't give a "no" option as anything typed other than "Y" is considered a "no"
+                myWriter.write(getBookDetails() + "\n"); // Overwrites everything in the file
+                System.out.println("Would you like to add another book to the list? Y or N");
+                answer = input.next();
+            }
+
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Successfully wrote to the file."); // Program hasn't crashed
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred."); // Error catcher
             e.printStackTrace();
         }
     }
 }
 //Matei please see me after class, we need to discuss the copyright and information privitisation act of 1790
 //Your code is clean however, you should rename your variables from the source material
+
