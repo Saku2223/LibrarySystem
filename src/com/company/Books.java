@@ -1,10 +1,13 @@
 package com.company;
 
+import java.util.ArrayList;
+
 public class Books {
     private String bookName;
     private String authorName;
     private int codeISBN;
     private String bookGenre;
+
 
     public Books(String bookName, String authorName, int codeISBN, String bookGenre) {
         this.bookName = bookName;
@@ -12,6 +15,7 @@ public class Books {
         this.codeISBN = codeISBN;
         this.bookGenre = bookGenre;
     }
+
 
     @Override
     public String toString() {

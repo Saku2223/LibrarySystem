@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 
 public class Main {
-    private static File LSOutput = new File("fileName.txt");
+    private static File LSOutput = new File("Books.txt");
     private static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -21,33 +21,34 @@ public class Main {
         if (userOption.equals("Y")) {
             DeleteFile();
         }
-            for (int j = 0; j < 4; j++) {
-                ShowMenu();
+        for (int j = 0; j < 4; j++) {
+            ShowMenu();
 
 
-                switch (menuInt) {
+            switch (menuInt) {
 
-                    case 1:
-                        int booksToAdd = Integer.parseInt(input.next("How many books do you wish to add?"));
-                        for (int i = 0; i < booksToAdd; i++) {
-                            books.add(getBookDetails());
-                        }
-                        WriteToFile();
-                        break;
+                case 1:
+                    int booksToAdd = Integer.parseInt(input.next("How many books do you wish to add?"));
+                    for (int i = 0; i < booksToAdd; i++) {
+                        books.add(getBookDetails());
+                    }
+                    WriteToFile();
+                    break;
 
-                    case 2:
-                        ReadFile();
-                        break;
+                case 2:
+                    ReadFile();
+                    break;
 
-                    case 3:
-                        DeleteFile();
-                        break;
-                }
-
+                case 3:
+                    DeleteFile();
+                    break;
             }
+
+        }
 
     }
 
+    ArrayList<Object> book = new ArrayList<>();
     private static ArrayList<String> books = new ArrayList<>();
     private static ArrayList<String> register = new ArrayList<>();
     private static int menuInt = 0;
@@ -61,7 +62,6 @@ public class Main {
 
     private static final File myObj = new File("bookList.txt");
     private static final File myLogin = new File("userLogins.txt");
-    private static Scanner scanner = new Scanner(System.in);
 
 
     public static void ShowMenu() {
